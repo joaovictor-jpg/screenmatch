@@ -1,16 +1,17 @@
 package br.com.jota.screenmetch.screenmetch.principal;
 
+import br.com.jota.screenmetch.screenmetch.models.Episodio;
 import br.com.jota.screenmetch.screenmetch.models.Serie;
 import br.com.jota.screenmetch.screenmetch.models.dto.DadosSerie;
+import br.com.jota.screenmetch.screenmetch.models.dto.DadosTemporada;
 import br.com.jota.screenmetch.screenmetch.models.enums.Categoria;
 import br.com.jota.screenmetch.screenmetch.repository.SerieRepository;
 import br.com.jota.screenmetch.screenmetch.services.ConsultaGemini;
 import br.com.jota.screenmetch.screenmetch.services.ConverteDados;
 import br.com.jota.screenmetch.screenmetch.services.ObterDadosServices;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class Principal {
 
@@ -20,7 +21,7 @@ public class Principal {
     private ConverteDados converteDados = new ConverteDados();
     private String token;
     private SerieRepository serieRepository;
-    private List<Serie> serie;
+    private List<Serie> series;
 
     public Principal(String apiKey, String token, SerieRepository serieRepository) {
         this.apiKey = apiKey;
@@ -39,9 +40,10 @@ public class Principal {
                         1 - Buscar série
                         2 - Lista série
                         3 - Buscar série por título
-                        4 - Buscar série por autor
+                        4 - Buscar série por ator
                         5 - Top 5 fovoritas séries
                         6 - Buscar Por categória
+                        7 - Buscar Episósdio
                         0 - Sair
                     """;
 
@@ -68,6 +70,9 @@ public class Principal {
                 case 6:
                     buscarSeriePorCategoria();
                     break;
+                case 7:
+                    buscarEpisodioPorSerie();
+                    break;
                 case 0:
                     System.out.println("Saindo...");
                     break;
@@ -75,6 +80,46 @@ public class Principal {
                     System.out.println("Opção inválida");
             }
         }
+    }
+
+    private void buscarEpisodioPorSerie() {
+        listaSerieBuscadas();
+        System.out.println("Entre com o nome da série");
+        var nomeSerie = scanner.nextLine();
+        Optional<Serie> serieOptional = this.series.stream()
+                .filter(s -> s.getTitulo().toLowerCase().contains(nomeSerie.toLowerCase()))
+                .findFirst();
+
+        if (serieOptional.isPresent()) {
+            List<DadosTemporada> temporadas = new ArrayList<>();
+
+            var serie = serieOptional.get();
+
+            for (int i = 1; i < serie.getTotalTemporada(); i++) {
+                var json = ObterDadosServices.obterDadosServices(
+                        this.ENDERECO +
+                                this.apiKey +
+                                "&t=" +
+                                serie.getTitulo().replace(" ", "+") +
+                                "&Season=" + i
+                        );
+                DadosTemporada dadosTemporada = converteDados.obterDados(json, DadosTemporada.class);
+                System.out.println(dadosTemporada);
+                temporadas.add(dadosTemporada);
+            }
+
+            temporadas.forEach(System.out::println);
+
+            List<Episodio> episodios = temporadas.stream().flatMap(t -> t.episodios()
+                    .stream()
+                    .map(e -> new Episodio(t.temporada(), e))
+            ).collect(Collectors.toList());
+            serie.setEpisodios(episodios);
+            serieRepository.save(serie);
+        } else {
+            System.out.println("Série não encontrada!");
+        }
+
     }
 
     private void buscarSeriePorCategoria() {
@@ -110,8 +155,8 @@ public class Principal {
     }
 
     private void listaSerieBuscadas() {
-        this.serie = serieRepository.findAll();
-        serie.stream()
+        this.series = serieRepository.findAll();
+        series.stream()
                 .sorted(Comparator.comparing(Serie::getGenero))
                 .forEach(System.out::println);
     }
