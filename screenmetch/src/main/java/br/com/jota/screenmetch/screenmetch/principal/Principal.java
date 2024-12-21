@@ -44,6 +44,7 @@ public class Principal {
                         5 - Top 5 fovoritas séries
                         6 - Buscar Por categória
                         7 - Buscar Episósdio
+                        8 - Buscar Episódio por trecho
                         0 - Sair
                     """;
 
@@ -73,6 +74,9 @@ public class Principal {
                 case 7:
                     buscarEpisodioPorSerie();
                     break;
+                case 8:
+                    buscarEpisodioPorTrecho();
+                    break;
                 case 0:
                     System.out.println("Saindo...");
                     break;
@@ -80,6 +84,15 @@ public class Principal {
                     System.out.println("Opção inválida");
             }
         }
+    }
+
+    private void buscarEpisodioPorTrecho() {
+        System.out.println("Qual é o trecho do episódio");
+        var trechoEpisodio = scanner.nextLine();
+        List<Episodio> episodios = serieRepository.episodioPorTrecho(trechoEpisodio);
+        episodios.forEach(e ->
+                System.out.printf("Série: %s, Título episódio: %s Temporada: %s - Avaliação: %s\n",
+                        e.getSerie().getTitulo(), e.getTitulo(), e.getTemporada(), e.getAvaliacao()));
     }
 
     private void buscarEpisodioPorSerie() {
@@ -102,7 +115,7 @@ public class Principal {
                                 "&t=" +
                                 serie.getTitulo().replace(" ", "+") +
                                 "&Season=" + i
-                        );
+                );
                 DadosTemporada dadosTemporada = converteDados.obterDados(json, DadosTemporada.class);
                 System.out.println(dadosTemporada);
                 temporadas.add(dadosTemporada);
