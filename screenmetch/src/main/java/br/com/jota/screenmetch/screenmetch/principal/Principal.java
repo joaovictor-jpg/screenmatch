@@ -22,6 +22,7 @@ public class Principal {
     private String token;
     private SerieRepository serieRepository;
     private List<Serie> series;
+    private Serie serie;
 
     public Principal(String apiKey, String token, SerieRepository serieRepository) {
         this.apiKey = apiKey;
@@ -45,6 +46,7 @@ public class Principal {
                         6 - Buscar Por categória
                         7 - Buscar Episósdio
                         8 - Buscar Episódio por trecho
+                        9 - top 5 episódios
                         0 - Sair
                     """;
 
@@ -77,12 +79,27 @@ public class Principal {
                 case 8:
                     buscarEpisodioPorTrecho();
                     break;
+                case 9:
+                    top5EpisodiosPorSerie();
+                    break;
                 case 0:
                     System.out.println("Saindo...");
                     break;
                 default:
                     System.out.println("Opção inválida");
             }
+        }
+    }
+
+    private void top5EpisodiosPorSerie() {
+        buscarSeriePorTittulo();
+
+        if (!this.serie.getTitulo().isEmpty()) {
+            var episodios = this.serieRepository.findTop5EpisodiosPorSerie(serie);
+            episodios.forEach(e -> {
+                System.out.printf("Série: %s, Titulo episódio: %s - Temporada: %s - Avaliação: %s\n",
+                        e.getSerie().getTitulo(), e.getTitulo(), e.getTemporada(), e.getAvaliacao());
+            });
         }
     }
 
@@ -163,7 +180,7 @@ public class Principal {
     private void buscarSeriePorTittulo() {
         System.out.println("Entre com título da serie");
         var titulo = scanner.nextLine();
-        Serie serie = serieRepository.findByTituloContainingIgnoreCase(titulo);
+        this.serie = serieRepository.findByTituloContainingIgnoreCase(titulo);
         System.out.println(serie);
     }
 
