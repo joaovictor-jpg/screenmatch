@@ -8,47 +8,49 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/home.css">
     <title>Screenmatch</title>
 </head>
 <body>
-    <header>
-        <div>
+    <header class="cabecalho">
+        <div class="cabecalho__logo">
             <img src="./imagem/logo.png" alt="Logo ScreenMatch">
             <h1>Screen match</h1>
-            <select>
+            <select data-categorias>
                 <option value="todos">Categorias</option>
-                <option value="todos">Comédia</option>
-                <option value="todos">Ação</option>
-                <option value="todos">Crime</option>
-                <option value="todos">Drama</option>
-                <option value="todos">Aventura</option>
+                <option value="comédia">Comédia</option>
+                <option value="ação">Ação</option>
+                <option value="crime">Crime</option>
+                <option value="drama">Drama</option>
+                <option value="aventura">Aventura</option>
             </select>
         </div>
 
-        <div>
-            <span>
+        <div class="cabecalho__opcoes">
+            <span class="material-symbols-outlined">
                 search
             </span>
-            <span>
+            <span class="material-symbols-outlined">
                 notifications
             </span>
-            <span>
+            <span class="material-symbols-outlined">
                 account_circle
             </span>
         </div>
     </header>
 
     <main>
-        <section>
-            <h2>Lançamento no ScreenMatch</h2>
+        <section data-name="lancamentos">
+            <h2>Lançamentos no ScreenMatch</h2>
         </section>
-        <section>
+        <section data-name="top5" class="select">
             <h2>Titulos populares no ScreenMatch</h2>
         </section>
-        <section>
+        <section data-name="series" class="section">
             <h2>Titulos no ScreenMatch</h2>
         </section>
-        <section>
+        <section data-name="categorias" class="hidden">
             <h2>Titulos no ScreenMatch</h2>
         </section>
     </main>
