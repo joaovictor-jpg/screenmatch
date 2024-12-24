@@ -60,7 +60,7 @@ categoriaSelect.addEventListener('change', function () {
 
         categoria.classList.remove('hidden')
         // Faça uma solicitação para o endpoint com a categoria selecionada
-        getDados(`/series/categoria/${categoriaSelecionada}`)
+        getDados(`/series/categorias/${categoriaSelecionada}`)
             .then(data => {
                 criarListaFilmes(categoria, data);
             })

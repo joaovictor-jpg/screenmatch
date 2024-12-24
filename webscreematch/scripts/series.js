@@ -25,6 +25,11 @@ function carregarTemporadas() {
                 listaTemporadas.appendChild(option);
             });
 
+            const top5Episodios = document.createElement('option');
+            top5Episodios.value = 'top5episodios'
+            top5Episodios.textContent = 'Top 5 episódios'
+            listaTemporadas.appendChild(top5Episodios);
+
             const optionTodos = document.createElement('option');
             optionTodos.value = 'todas';
             optionTodos.textContent = 'Todas as temporadas'

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,10 +13,11 @@
     <link rel="stylesheet" href="css/home.css">
     <title>Screenmatch</title>
 </head>
+
 <body>
     <header class="cabecalho">
         <div class="cabecalho__logo">
-            <img src="./imagem/logo.png" alt="Logo ScreenMatch">
+            <img src="imagem/logo.png" alt="Logo ScreenMatch">
             <h1>Screen match</h1>
             <select data-categorias>
                 <option value="todos">Categorias</option>
@@ -31,9 +33,11 @@
             <span class="material-symbols-outlined">
                 search
             </span>
+
             <span class="material-symbols-outlined">
                 notifications
             </span>
+
             <span class="material-symbols-outlined">
                 account_circle
             </span>
@@ -41,19 +45,32 @@
     </header>
 
     <main>
-        <section data-name="lancamentos">
-            <h2>Lançamentos no ScreenMatch</h2>
+        <section data-name="lancamentos" class="section">
+            <h2>
+                Lançamentos no ScreenMatch
+            </h2>
+
+
         </section>
-        <section data-name="top5" class="select">
-            <h2>Titulos populares no ScreenMatch</h2>
+
+        <section data-name="top5" class="section">
+            <h2>
+                Titulos populares no ScreenMatch
+            </h2>
+
         </section>
+
         <section data-name="series" class="section">
-            <h2>Titulos no ScreenMatch</h2>
+            <h2>
+                Titulos no ScreenMatch
+            </h2>
         </section>
-        <section data-name="categorias" class="hidden">
+
+        <section data-name="categoria" class="hidden pesquisa">
             <h2>Titulos no ScreenMatch</h2>
         </section>
     </main>
-    <script type="module" src="./scripts/index.js"></script>
+    <script src="./scripts/index.js" type="module"></script>
 </body>
+
 </html>
