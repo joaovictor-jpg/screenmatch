@@ -63,7 +63,7 @@ public class SerieServices {
 
         Optional<Serie> serie = repository.findById(id);
 
-        return serie.map(s -> repository.findTop5EpisodiosPorSerie(s).stream().sorted(
+        return serie.map(value -> repository.findTop5EpisodiosPorSerie(value).stream().sorted(
                 Comparator.comparing(Episodio::getAvaliacao)).collect(Collectors.toList())).orElse(null);
     }
 }
